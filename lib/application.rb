@@ -2,20 +2,10 @@
 
 # This is a single file Rails application used as a skeleton for practice excercises
 
-require 'bundler/inline'
-
-# Gemfile
-gemfile(true, quiet: true) do
-  source 'https://rubygems.org'
-
-  gem 'rails', '~> 7'
-  gem 'sqlite3'
-  gem 'debug'
-end
-
 # Load all Rails components
 require 'rails/all'
-require 'debug'
+
+require_relative './helpers'
 
 # config/database.yml
 ENV['DATABASE_URL'] = "sqlite3::memory:"
@@ -25,11 +15,7 @@ ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:"
 ActiveRecord::Schema.define do
   self.verbose = false
 
-  create_table :books, force: true do |t|
-    t.string :title, null: false
-    t.string :category, null: false
-    t.timestamps null: true
-  end
+  ChapterHelpers.extend!(:schema, self)
 end
 
 # config/application.rb
@@ -40,11 +26,14 @@ class App < Rails::Application
   config.secret_key_base = 'i_am_a_secret'
   config.active_storage.service_configurations = { 'local' => { 'service' => 'Disk', 'root' => './storage' } }
   config.active_record.legacy_connection_handling = false
+  config.hosts = []
 
   config.logger = ActiveSupport::Logger.new(ENV['LOG'] == '1' ? $stdout : IO::NULL)
 
   routes.append do
     root to: 'welcome#index'
+
+    ChapterHelpers.extend!(:routes, self)
   end
 end
 
@@ -52,10 +41,11 @@ class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 end
 
-class WelcomeController < ActionController::Base
+class ApplicationController < ActionController::Base
+end
+
+class WelcomeController < ApplicationController
   def index
     render inline: 'Hi!'
   end
 end
-
-App.initialize!
