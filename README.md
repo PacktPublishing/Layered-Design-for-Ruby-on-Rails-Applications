@@ -23,6 +23,19 @@ $ ruby Chapter01/01-request-gc-stats.rb
 Total allocations: 18573
 ```
 
+### Using examples runner
+
+You can also run examples using a specific runner scripts, which prints the source code along with intermediate
+return values in addition to executing the code:
+
+```sh
+ruby run.rb Chapter01/01-request-gc-stats.rb
+```
+
+Here is an example output of the runner:
+
+<img src="./assets/demo.gif" alt="Runner demo" width="720px">
+
 ### Software and Hardware List
 
 | Chapter | Software required | OS required |
