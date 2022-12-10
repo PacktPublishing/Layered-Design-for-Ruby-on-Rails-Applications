@@ -31,6 +31,10 @@ module ChapterHelpers
       ChapterHelpers.extensions[:schema] << block
     end
 
+    def routes(&block)
+      ChapterHelpers.extensions[:routes] << block
+    end
+
     # Prints the code and executes it,
     # paragraph by paragraph
     def annotate(code, path)

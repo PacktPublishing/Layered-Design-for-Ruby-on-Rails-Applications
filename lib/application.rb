@@ -8,8 +8,10 @@ require 'rails/all'
 require_relative './helpers'
 
 # config/database.yml
-ENV['DATABASE_URL'] = "sqlite3::memory:"
-ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")
+database = File.expand_path(File.join(__dir__, "..", "rails-book.sqlite3"))
+ENV["DATABASE_URL"] = "sqlite3:#{database}"
+ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: database)
+ActiveRecord::Base.logger = ActiveSupport::Logger.new(ENV['LOG'] == '1' ? $stdout : IO::NULL)
 
 # db/schema.rb
 ActiveRecord::Schema.define do
@@ -29,6 +31,10 @@ class App < Rails::Application
   config.hosts = []
 
   config.logger = ActiveSupport::Logger.new(ENV['LOG'] == '1' ? $stdout : IO::NULL)
+
+  # Add current chapter views
+  prelude_path = caller_locations(1, 10).find { _1.path.include?("prelude.rb") }.path
+  config.paths["app/views"] << File.join(File.dirname(prelude_path), "views")
 
   routes.append do
     root to: 'welcome#index'
