@@ -7,16 +7,26 @@ require_relative "./helpers"
 # by using the GemsInline helper module
 require 'bundler/inline'
 
-gemfile(true, quiet: true) do
-  source 'https://rubygems.org'
+retried = false
+begin
+  gemfile(retried, quiet: true) do
+    source 'https://rubygems.org'
 
-  gem 'rails', '~> 7'
-  # We use in-memory sqlite as our database
-  gem 'sqlite3'
-  # Debugger could be used to dig deeper into some code examples
-  gem 'debug'
+    gem 'rails', '~> 7.0.0'
+    # We use in-memory sqlite as our database
+    gem 'sqlite3', '~> 1.5.4'
+    # Debugger could be used to dig deeper into some code examples
+    gem 'debug', '~> 1.7.0'
+    # Highlight code in the terminal
+    gem 'rouge', '~> 4.0.0'
 
-  ChapterHelpers.extend!(:gemfile, self)
+    ChapterHelpers.extend!(:gemfile, self)
+  end
+rescue Gem::MissingSpecError
+  raise if retried
+
+  retried = true
+  retry
 end
 
 # Then, load the Rails application
