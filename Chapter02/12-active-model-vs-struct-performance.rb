@@ -1,19 +1,4 @@
-# frozen_string_literal: true
-
-require 'bundler/inline'
-
-# Gemfile
-gemfile(true, quiet: true) do
-  source 'https://rubygems.org'
-
-  gem 'activemodel', '~> 7'
-  gem 'benchmark-ips'
-  gem 'benchmark-memory'
-end
-
-require 'active_model'
-require 'benchmark/memory'
-require 'benchmark/ips'
+require_relative "./prelude"
 
 class ActiveUser
   include ActiveModel::API
