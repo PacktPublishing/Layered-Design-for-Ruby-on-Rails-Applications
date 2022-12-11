@@ -27,31 +27,41 @@ class App < Rails::Application
   config.consider_all_requests_local = true
   config.secret_key_base = 'i_am_a_secret'
   config.active_storage.service_configurations = { 'local' => { 'service' => 'Disk', 'root' => './storage' } }
+  config.active_storage.service = :local
   config.active_record.legacy_connection_handling = false
+  config.active_job.queue_adapter = :inline
+
   config.hosts = []
 
   config.logger = ActiveSupport::Logger.new(ENV['LOG'] == '1' ? $stdout : IO::NULL)
 
   # Add current chapter views
-  prelude_path = caller_locations(1, 10).find { _1.path.include?("prelude.rb") }.path
-  config.paths["app/views"] << File.join(File.dirname(prelude_path), "views")
+  prelude_path = caller_locations(1, 10).find { _1.path.include?("prelude.rb") }&.path
+  config.paths["app/views"] << File.join(File.dirname(prelude_path), "views") if prelude_path
 
   routes.append do
     root to: 'welcome#index'
 
     ChapterHelpers.extend!(:routes, self)
   end
-end
 
-class ApplicationRecord < ActiveRecord::Base
-  self.abstract_class = true
-end
-
-class ApplicationController < ActionController::Base
-end
-
-class WelcomeController < ApplicationController
-  def index
-    render inline: 'Hi!'
+  config.after_initialize do
+    require_relative "./app"
   end
+end
+
+# Create Active Storage tables (unless already exists)
+begin
+  ActiveRecord::Base.connection.execute "select 1 from active_storage_blobs"
+rescue ActiveRecord::StatementInvalid
+  active_storage_migrate_dir = File.join(
+    Gem.loaded_specs["activestorage"].full_gem_path,
+    "db", "migrate"
+  )
+
+  Dir.children(active_storage_migrate_dir).each do
+    require File.join(active_storage_migrate_dir, _1)
+  end
+
+  CreateActiveStorageTables.new.migrate(:up)
 end
