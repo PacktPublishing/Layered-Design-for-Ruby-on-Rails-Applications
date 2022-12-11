@@ -36,6 +36,34 @@ Here is an example output of the runner:
 
 <img src="./assets/demo.gif" alt="Runner demo" width="720px">
 
+### Running Rails tasks
+
+You can run Rails (Rake) tasks using the `bin/rails` executable:
+
+```sh
+$ bin/rails middleware
+
+use ActionDispatch::HostAuthorization
+use Rack::Sendfile
+...
+use Rack::TempfileReaper
+run App.routes
+```
+
+You can also load the application modification for a particular chapter by specifying the `CHAPTER` env var:
+
+```sh
+$ CHAPTER=2 bin/rails routes
+
+...
+         books GET    /books(.:format)
+    books#index
+    categories GET    /categories(:format)
+    categories#index
+      category GET    /categories:id(.:format)
+    categories#show
+```
+
 ### Software and Hardware List
 
 | Chapter | Software required | OS required |

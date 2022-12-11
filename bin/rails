@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+APP_PATH = File.expand_path("../lib/application", __dir__)
+
+if ENV["CHAPTER"]
+  chapter_dir = "Chapter#{ENV["CHAPTER"].rjust(2, "0")}"
+  require_relative File.join(__dir__, "..", chapter_dir, "prelude.rb")
+else
+  require_relative "../lib/boot"
+end
+
+require "rails/commands"
