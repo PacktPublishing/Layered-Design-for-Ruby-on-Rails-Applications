@@ -89,7 +89,7 @@ module ChapterHelpers
         end
 
         ignore_output = ignore_output ||
-          paragraph.match?(/^(class|module|def\s)/)
+          paragraph.match?(/^(class|module|def\s|require \")/)
 
         paragraph.sub!(/# :ignore:(output)?/, "")
 
@@ -109,9 +109,10 @@ module ChapterHelpers
 
         unless ignore_output
           file.rewind
-          output = file.read.lines
+          output = file.read.strip
 
           unless output.empty?
+            output = output.lines
             original_stdout.puts("\n↳ #{output.first}#{output[1..].map { "  " + _1 }.join}")
           end
 
@@ -124,8 +125,27 @@ module ChapterHelpers
 
         line_num += paragraph.lines.size
       end
+
+      # Let SyntaxError bubble
+      bind.eval(buffer.join, path) unless buffer.empty?
     ensure
       $stdout = original_stdout
     end
+  end
+end
+
+# Add #render to binding to render ERB templates within the context
+# of the current scope
+class Binding
+  def render(erb_str)
+    locals = local_variables.each.with_object({}) do |lvar, acc|
+      acc[lvar] = local_variable_get(lvar)
+      acc
+    end
+
+    puts ApplicationController.render(
+      locals:,
+      inline: erb_str
+    )
   end
 end
