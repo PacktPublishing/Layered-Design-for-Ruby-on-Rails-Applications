@@ -1,4 +1,5 @@
 require_relative "./prelude"
+using ChapterHelpers
 
 class Category
   include ActiveModel::API
@@ -22,7 +23,6 @@ class BooksController < ApplicationController
   end
 end
 
-request = Rack::MockRequest.env_for('http://localhost:3000/books')
-_, _, body = Rails.application.call(request)
+response = get "/books"
 
-puts body
+puts response.body

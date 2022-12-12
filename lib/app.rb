@@ -14,6 +14,20 @@ end
 class ApplicationJob < ActiveJob::Base
 end
 
+class ApplicationMailer < ActionMailer::Base
+  layout nil
+
+  after_action :prevent_delivery
+
+  private
+
+  # Do not attempt deliveries, just print a message
+  def prevent_delivery
+    message.perform_deliveries = false
+    puts "[EMAIL SENT] to=#{message.to&.join(",")} subject=#{message.subject} body=#{message.body}"
+  end
+end
+
 class WelcomeController < ApplicationController
   def index
     render inline: 'Hi!'

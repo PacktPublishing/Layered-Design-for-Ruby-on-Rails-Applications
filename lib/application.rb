@@ -20,16 +20,33 @@ ActiveRecord::Schema.define do
   ChapterHelpers.extend!(:schema, self)
 end
 
+require "active_job/queue_adapters/inline_adapter"
+
+# Custom Active Job adapter to perform jobs synchronously,
+# but within a new thread (so, it's a combination of async and inline).
+# That better ressembles the production queueing adapters by executing jobs
+# within non-main threads.
+module ActiveJob
+  module QueueAdapters
+    class AsyncInlineAdapter < InlineAdapter
+      def enqueue(job)
+        Thread.new { Base.execute(job.serialize) }.join
+      end
+    end
+  end
+end
+
 # config/application.rb
 class App < Rails::Application
   config.root = __dir__
   config.eager_load = false
   config.consider_all_requests_local = true
+  config.action_dispatch.show_exceptions = false
   config.secret_key_base = 'i_am_a_secret'
   config.active_storage.service_configurations = { 'local' => { 'service' => 'Disk', 'root' => './storage' } }
   config.active_storage.service = :local
   config.active_record.legacy_connection_handling = false
-  config.active_job.queue_adapter = :inline
+  config.active_job.queue_adapter = :async_inline
 
   config.hosts = []
 

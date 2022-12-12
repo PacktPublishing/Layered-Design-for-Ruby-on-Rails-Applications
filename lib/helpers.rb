@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
-require "rouge"
+# Rouge is only installed during the first run,
+# so we should ignore the failure
+begin
+  require "rouge"
+rescue LoadError
+end
+
 require "tempfile"
 require "ripper"
 
@@ -35,13 +41,45 @@ module ChapterHelpers
       ChapterHelpers.extensions[:routes] << block
     end
 
+    def request(path, params: {}, method: :get, cookies: {}, env: {})
+      request_env = Rack::MockRequest.env_for(
+        "http://localhost:3000#{path}",
+        params:,
+        method:
+      )
+
+      env["HTTP_COOKIE"] = cookies.map { |k, v| "#{k}=#{v}" }.join(";") unless cookies.empty?
+
+      request_env.merge!(env) unless env.empty?
+
+      ActionDispatch::Response.new(*Rails.application.call(request_env))
+    end
+
+    def get(path, **options)
+      request(path, **options)
+    end
+
+    def patch(path, **options)
+      request(path, method: :patch, **options)
+    end
+
+    def post(path, **options)
+      request(path, method: :post, **options)
+    end
+
+    def delete(path, **options)
+      request(path, method: :delete, **options)
+    end
+
     # Prints the code and executes it,
     # paragraph by paragraph
     def annotate(code, path)
       bind = TOPLEVEL_BINDING.eval("binding")
 
-      formatter = Rouge::Formatters::Terminal256.new
-      lexer = Rouge::Lexers::Ruby.new
+      if defined?(::Rouge)
+        formatter = Rouge::Formatters::Terminal256.new
+        lexer = Rouge::Lexers::Ruby.new
+      end
 
       paragraphs = code.split(/^\s*$/)
       line_num = 1
@@ -101,7 +139,13 @@ module ChapterHelpers
         end
 
         unless ignore
-          formatted = formatter.format(lexer.lex(source))
+          formatted =
+            if formatter
+              formatter.format(lexer.lex(source))
+            else
+              source
+            end
+
           original_stdout.puts(formatted)
         end
 
@@ -132,20 +176,26 @@ module ChapterHelpers
       $stdout = original_stdout
     end
   end
-end
 
-# Add #render to binding to render ERB templates within the context
-# of the current scope
-class Binding
-  def render(erb_str)
-    locals = local_variables.each.with_object({}) do |lvar, acc|
-      acc[lvar] = local_variable_get(lvar)
-      acc
+  refine Object do
+    def remove_const(name)
+      Object.send(:remove_const, name)
     end
+  end
 
-    puts ApplicationController.render(
-      locals:,
-      inline: erb_str
-    )
+  refine Binding do
+    # Add #render to binding to render ERB templates within the context
+    # of the current scope
+    def render(erb_str)
+      locals = local_variables.each.with_object({}) do |lvar, acc|
+        acc[lvar] = local_variable_get(lvar)
+        acc
+      end
+
+      puts ApplicationController.render(
+        locals:,
+        inline: erb_str
+      )
+    end
   end
 end

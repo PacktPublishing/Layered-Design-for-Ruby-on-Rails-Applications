@@ -1,4 +1,5 @@
 require_relative "./prelude"
+using ChapterHelpers
 
 class Post < ApplicationRecord
   has_one_attached :image
