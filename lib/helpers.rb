@@ -116,7 +116,10 @@ module ChapterHelpers
             nil
           end
 
-        next if paragraph.include?(%q(require_relative "./prelude"))
+        if paragraph.include?(%q(require_relative "./prelude"))
+          raise exception if exception
+          next
+        end
 
         ignore = paragraph.match(/# :ignore:(output)?/)
         ignore_output = ignore
@@ -127,7 +130,7 @@ module ChapterHelpers
         end
 
         ignore_output = ignore_output ||
-          paragraph.match?(/^(class|module|def\s|require \")/)
+          paragraph.match?(/^(class|module|def\s|require \"|RSpec\.describe)/)
 
         paragraph.sub!(/# :ignore:(output)?/, "")
 
