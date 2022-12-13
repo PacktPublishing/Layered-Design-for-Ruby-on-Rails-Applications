@@ -1,4 +1,5 @@
 require_relative "./prelude"
+using ChapterHelpers
 
 class ApplicationController < ActionController::Base
   before_action :authenticate!
@@ -54,4 +55,8 @@ response = get "/posts/#{post.id}?user_id=#{user.id}"
 puts response.body
 
 # Unauthenticated request now raises an exception
-get "/posts/#{post.id}"
+begin
+  get "/posts/#{post.id}"
+rescue => err
+  puts "#{err.class}: #{err.message}"
+end

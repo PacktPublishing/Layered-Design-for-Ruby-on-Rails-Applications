@@ -14,6 +14,7 @@ class Category
   alias_method :id, :category
 
   def persisted? = true
+
   def books = Book.where(category:)
 end
 

@@ -5,7 +5,7 @@ using ChapterHelpers
 ARGV.each do |filename|
   contents = File.read(filename)
 
-  eval <<~CODE
+  eval <<~CODE # rubocop:disable Security/Eval, Style/EvalWithLocation
     annotate(
       %q(#{contents}),
       filename

@@ -1,24 +1,26 @@
 require_relative "./prelude"
 
+SVG_TYPES = %w[
+  image/svg
+  image/svg+xml
+].freeze
+
+FONT_TYPES = %w[
+  font/otf
+  font/ttf
+  font/woff
+  font/woff2
+].freeze
+
 MediaType = Data.define(:content_type) do
-  SVG_TYPES = %w[
-    image/svg
-    image/svg+xml
-  ].freeze
-
-  FONT_TYPES = %w[
-    font/otf
-    font/ttf
-    font/woff
-    font/woff2
-  ].freeze
-
   include Comparable
 
   def <=>(other) = content_type <=> other.content_type
 
   def video? = content_type.start_with?("video")
+
   def svg? = SVG_TYPES.include?(content_type)
+
   def font? = FONT_TYPES.include?(content_type)
   # … more <type>? methods
 end

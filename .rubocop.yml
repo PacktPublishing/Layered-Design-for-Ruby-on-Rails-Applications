@@ -1,0 +1,20 @@
+require:
+  - standard/cop/block_single_line_braces
+
+inherit_gem:
+  standard: config/base.yml
+
+AllCops:
+  DisplayCopNames: true
+  SuggestExtensions: false
+  TargetRubyVersion: 3.2
+
+Standard/BlockSingleLineBraces:
+  Enabled: false
+
+# We often re-define classes within examples
+Lint/DuplicateMethods:
+  Enabled: false
+# Useless assignments become useful in examples
+Lint/UselessAssignment:
+  Enabled: false

@@ -3,9 +3,9 @@ require_relative "./prelude"
 class User < ApplicationRecord
   composed_of :address,
     class_name: "User::Address",
-    mapping: [%w(address_country), %w(address_city), %w(address_street), %w(address_zip)],
+    mapping: [%w[address_country], %w[address_city], %w[address_street], %w[address_zip]],
     constructor: proc { |country, city, street, zip|
-      Address.new({country:,city:,street:,zip:})
+      Address.new({country:, city:, street:, zip:})
     }
 end
 

@@ -5,7 +5,7 @@ class DummyVideoPreviewer < ActiveStorage::Previewer
 
   def preview(**options)
     output = File.open(File.join(__dir__, "assets", "example.png"))
-    yield io: output, filename: "#{blob.filename.base}.png", content_type: "image/png", metadata: { "dummy" => true }, **options
+    yield io: output, filename: "#{blob.filename.base}.png", content_type: "image/png", metadata: {"dummy" => true}, **options
   end
 end
 

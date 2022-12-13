@@ -25,7 +25,8 @@ class GitHubEvent
 
   Issue = Data.define(:user_id, :action, :title, :body)
   PR = Data.define(
-    :user_id, :action, :title, :body, :branch)
+    :user_id, :action, :title, :body, :branch
+  )
 end
 
 # Add a method to the model implementing webhooks processing logic
@@ -57,7 +58,7 @@ class GithooksController < ApplicationController
 
   def verify_signature!
     # Let’s skip the payload signature verification
-   # code, since it’s irrelevant to our refactoring
+    # code, since it’s irrelevant to our refactoring
   end
 end
 

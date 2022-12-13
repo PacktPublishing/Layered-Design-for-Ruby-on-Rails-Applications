@@ -38,8 +38,8 @@ end
 class CommentRepository < Hanami::Repository
   def latest_for_post(post_id, count:)
     comments.where(post_id:)
-            .order { id.desc }
-            .limit(count).to_a
+      .order { id.desc }
+      .limit(count).to_a
   end
 end
 

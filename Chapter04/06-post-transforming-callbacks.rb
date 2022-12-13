@@ -5,9 +5,10 @@ class Post < ApplicationRecord
   before_validation :squish_content, if: :content_changed?
   before_save :set_word_count, if: :content_changed?
   validates :short_name, :content, :word_count,
-            presence: true
+    presence: true
 
   private
+
   def compute_shortname
     self.short_name ||= title.parameterize
   end

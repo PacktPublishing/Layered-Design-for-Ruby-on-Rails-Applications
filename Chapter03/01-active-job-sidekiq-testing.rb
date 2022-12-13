@@ -17,7 +17,7 @@ class TrackAnalyticsWorker
     user = User.find(user_id)
 
     Analytics::Tracker.push_event(
-     {user: {name: user.name, id: user.id}, event:}
+      {user: {name: user.name, id: user.id}, event:}
     )
   end
 end
@@ -40,7 +40,8 @@ class UserTest < ActiveSupport::TestCase
 
     assert_enqueued_with(
       job: TrackAnalyticsJob,
-      args: [@user, "signed_in"]) do
+      args: [@user, "signed_in"]
+    ) do
       @user.track_event("signed_in")
     end
   end

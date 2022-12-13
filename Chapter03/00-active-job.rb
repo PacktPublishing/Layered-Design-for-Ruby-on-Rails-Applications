@@ -16,6 +16,7 @@ TrackAnalyticsJob.perform_later(user, "signed_in")
 
 class NoopAdapter
   def enqueue(*) = nil
+
   def enqueue_at(*) = nil
 end
 

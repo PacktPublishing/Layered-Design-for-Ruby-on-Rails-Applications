@@ -1,6 +1,6 @@
 require_relative "./prelude"
 
-request = Rack::MockRequest.env_for('http://localhost:3000')
+request = Rack::MockRequest.env_for("http://localhost:3000")
 
 was_alloc = GC.stat[:total_allocated_objects]
 

@@ -44,9 +44,18 @@ end
 post = Post.create!(title: "The Rails 5 Way")
 
 # Post without author and publish date
-post.publish
+begin
+  post.publish
+rescue ActiveRecord::RecordInvalid => e
+  puts "#{e.class}: #{e.message}"
+end
 
 post.author = "Vova"
 # Published on Tue
 post.publish_date = Date.new(2022, 12, 13)
-post.publish
+
+begin
+  post.publish
+rescue ActiveRecord::RecordInvalid => e
+  puts "#{e.class}: #{e.message}"
+end

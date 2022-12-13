@@ -63,7 +63,7 @@ routes do
 
   resource :demo, only: [:show]
 
-  get "/login" => "welcome#index", as: :login
+  get "/login" => "welcome#index", :as => :login
 end
 
 require_relative "../lib/boot"

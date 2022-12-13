@@ -26,9 +26,13 @@ end
 
 require_relative "../lib/boot"
 
-$TESTING = true
+# Set this global var to disable Sidekiq warning message
+$TESTING = true # rubocop:disable Style/GlobalVars
 require "sidekiq/testing"
 Sidekiq::Testing.inline!
+
+# Use inline adapter for Active Job as well
+ActiveJob::Base.queue_adapter = :inline
 
 # To use #stub in tests
 require "minitest/mock"
@@ -52,7 +56,7 @@ end
 # Extend GlobalID to show human-readable representation
 # in #inspect
 class GlobalID
-  alias inspect to_s
+  alias_method :inspect, :to_s
 end
 
 # Stub Rails credentials
@@ -70,12 +74,12 @@ if ENV["BITLY_API_TOKEN"].blank?
   WebMock.enable!
 
   mocked_response = {
-    "created_at"=>"2022-12-10T23:51:47+0000",
-    "link"=>"https://bit.ly/3Use6uj",
-    "id"=>"bit.ly/3Use6uj",
-    "long_url"=>"https://rubyonrails.org"
+    "created_at" => "2022-12-10T23:51:47+0000",
+    "link" => "https://bit.ly/3Use6uj",
+    "id" => "bit.ly/3Use6uj",
+    "long_url" => "https://rubyonrails.org"
   }.to_json
 
   WebMock::API.stub_request(:post, "https://api-ssl.bitly.com/v4/shorten")
-              .to_return(status: 200, body: mocked_response, headers: {"content-type" => "application/json"})
+    .to_return(status: 200, body: mocked_response, headers: {"content-type" => "application/json"})
 end

@@ -1,4 +1,4 @@
-require_relative "./prelude.rb"
+require_relative "./prelude"
 using ChapterHelpers
 
 class PostsController < ApplicationController
@@ -15,6 +15,7 @@ class PostsController < ApplicationController
   end
 
   private
+
   def load_post = @post = Post.find(params[:id])
 
   def track_post_view

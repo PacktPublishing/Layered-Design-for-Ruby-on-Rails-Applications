@@ -6,7 +6,7 @@ module SoftDeletable
     base.include Discard::Model
     base.discard_column = :deleted_at
     base.belongs_to :deleted_by, class_name: "User",
-                                 optional: true
+      optional: true
     base.include InstanceMethods
   end
 

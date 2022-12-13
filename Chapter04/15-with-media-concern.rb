@@ -22,6 +22,7 @@ module WithMedia
   end
 
   def font? = FONT_TYPES.include?(media.content_type)
+
   def svg? = SVG_TYPES.include?(media.content_type)
   # … more <type>? methods
 end

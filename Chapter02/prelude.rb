@@ -60,9 +60,6 @@ gems do
   gem "benchmark-memory", "~> 0.2.0"
 end
 
-require "benchmark/memory"
-require "benchmark/ips"
-
 require_relative "../lib/boot"
 # Enable logging to see queries
 ActiveRecord::Base.logger = ActiveSupport::Logger.new($stdout)
@@ -75,7 +72,9 @@ require "rom-sql"
 module Hanami
   class Repository
     def self.config = @config ||= ROM::Configuration.new(:sql, ENV.fetch("DATABASE_URL").sub("sqlite3", "sqlite"))
+
     def self.container = @container ||= ROM.container(config)
+
     def self.inherited(base)
       base.alias_method base.relation_name, :relation
 
@@ -124,7 +123,7 @@ class BookRepository
   def self.insert(title:, category: nil)
     rows = DB.execute <<~SQL
       insert into books (title, category)
-      values (\'#{title}\', #{category ? "\'#{category}\'" : 'NULL'})
+      values ('#{title}', #{category ? "'#{category}'" : "NULL"})
       returning id
     SQL
 
@@ -161,5 +160,4 @@ I18n.backend.store_translations(:en,
         }
       }
     }
-  }
-)
+  })

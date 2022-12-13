@@ -25,6 +25,7 @@ module ChapterHelpers
 
   class << self
     def extensions = @extensions ||= Hash.new { |h, k| h[k] = [] }
+
     def extend!(type, obj) = extensions[type].each { obj.instance_eval(&_1) }
   end
 
@@ -116,7 +117,7 @@ module ChapterHelpers
             nil
           end
 
-        if paragraph.include?(%q(require_relative "./prelude"))
+        if paragraph.include?('require_relative "./prelude"')
           raise exception if exception
           next
         end
@@ -129,8 +130,7 @@ module ChapterHelpers
           ignore = nil
         end
 
-        ignore_output = ignore_output ||
-          paragraph.match?(/^(class|module|def\s|require \"|RSpec\.describe)/)
+        ignore_output ||= paragraph.match?(/^(class|module|def\s|require "|RSpec\.describe)/)
 
         paragraph.sub!(/# :ignore:(output)?/, "")
 

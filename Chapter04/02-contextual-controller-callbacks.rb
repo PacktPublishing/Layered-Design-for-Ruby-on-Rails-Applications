@@ -1,4 +1,5 @@
 require_relative "./prelude"
+using ChapterHelpers
 
 # Application controller with around callbacks to set up
 # the request local and time zone

@@ -2,7 +2,7 @@ require_relative "./prelude"
 
 # #content_tag stub
 def content_tag(tag, text, attrs = {})
-  "<#{tag} #{attrs.map { |k, v| "#{k}=\"#{v}\""}.join(" ")}>#{text}</#{tag}>"
+  "<#{tag} #{attrs.map { |k, v| "#{k}=\"#{v}\"" }.join(" ")}>#{text}</#{tag}>"
 end
 
 def link_to(name, record)
@@ -24,7 +24,7 @@ class Book
 
   attribute :id
 
-  def persisted?() = true
+  def persisted? = true
 end
 
 puts link_to("Object", Book.new(id: 2023))
@@ -32,7 +32,7 @@ puts link_to("Object", Book.new(id: 2023))
 class BookTest < ActiveSupport::TestCase
   include ActiveModel::Lint::Tests
 
-  def setup() = @model = Book.new
+  def setup = @model = Book.new
 end
 
 Minitest.run

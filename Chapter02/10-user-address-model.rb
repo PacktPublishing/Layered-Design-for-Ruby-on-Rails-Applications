@@ -16,7 +16,7 @@ class User::Address
   attribute :zip
 end
 
-user = User.create!(address: {country: 'USA', city: 'Bronx', street: '231st', zip: 10463})
+user = User.create!(address: {country: "USA", city: "Bronx", street: "231st", zip: 10463})
 
 user.address
 

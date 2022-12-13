@@ -1,7 +1,7 @@
 require_relative "rails_helper"
 
 RSpec.describe GithooksController, type: :request do
-  let(:raw_event) { %q({"event":"test"}) }
+  let(:raw_event) { '{"event":"test"}' }
   let(:event) { GitHubEvent::Issue.new(user_id: "palkan", action: "opened", title: "Issue", body: "Test") }
   let!(:user) { User.create!(name: "Vova", gh_id: "palkan") }
 

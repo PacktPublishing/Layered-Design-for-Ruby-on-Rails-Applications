@@ -13,4 +13,6 @@ end
 
 post = Post.create!(title: "The Rails 4 Way", published: true)
 
-post.update!(draft: true)
+post.update(draft: true)
+
+puts post.errors.full_messages

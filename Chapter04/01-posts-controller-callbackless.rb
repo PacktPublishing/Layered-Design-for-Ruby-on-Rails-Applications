@@ -1,4 +1,4 @@
-require_relative "./prelude.rb"
+require_relative "./prelude"
 using ChapterHelpers
 
 class PostsController < ApplicationController

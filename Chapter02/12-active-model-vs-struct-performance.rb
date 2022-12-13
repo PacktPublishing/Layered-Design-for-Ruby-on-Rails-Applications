@@ -16,17 +16,17 @@ end
 StructUser = Struct.new(:a, :b, :c, :d, :e, keyword_init: true)
 
 Benchmark.ips do |x|
-  x.report('struct') { StructUser.new(a: 1, b: 2, c: 3, d: 4, e: 5) }
-  x.report('active model api') { ActiveUser.new(a: 1, b: 2, c: 3, d: 4, e: 5) }
-  x.report('w/attributes') { ActiveAttributesUser.new(a: 1, b: 2, c: 3, d: 4, e: 5) }
+  x.report("struct") { StructUser.new(a: 1, b: 2, c: 3, d: 4, e: 5) }
+  x.report("active model api") { ActiveUser.new(a: 1, b: 2, c: 3, d: 4, e: 5) }
+  x.report("w/attributes") { ActiveAttributesUser.new(a: 1, b: 2, c: 3, d: 4, e: 5) }
 
   x.compare!
 end
 
 Benchmark.memory do |x|
-  x.report('struct') { StructUser.new(a: 1, b: 2, c: 3, d: 4, e: 5) }
-  x.report('active model api') { ActiveUser.new(a: 1, b: 2, c: 3, d: 4, e: 5) }
-  x.report('w/attributes') { ActiveAttributesUser.new(a: 1, b: 2, c: 3, d: 4, e: 5) }
+  x.report("struct") { StructUser.new(a: 1, b: 2, c: 3, d: 4, e: 5) }
+  x.report("active model api") { ActiveUser.new(a: 1, b: 2, c: 3, d: 4, e: 5) }
+  x.report("w/attributes") { ActiveAttributesUser.new(a: 1, b: 2, c: 3, d: 4, e: 5) }
 
   x.compare!
 end

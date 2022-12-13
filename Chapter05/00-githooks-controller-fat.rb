@@ -26,7 +26,7 @@ class GithooksController < ApplicationController
 
   def verify_signature!
     # Let’s skip the payload signature verification
-   # code, since it’s irrelevant to our refactoring
+    # code, since it’s irrelevant to our refactoring
   end
 
   def parse_event(payload)
@@ -35,12 +35,12 @@ class GithooksController < ApplicationController
 
   def track_issue(login, title, body)
     User.find_by(gh_id: login)
-        &.issues.create!(title:, body:)
+        &.issues&.create!(title:, body:)
   end
 
   def track_pr(login, title, body, branch)
     User.find_by(gh_id: login)
-        &.pull_requests.create!(title:, body:, branch:)
+        &.pull_requests&.create!(title:, body:, branch:)
   end
 end
 

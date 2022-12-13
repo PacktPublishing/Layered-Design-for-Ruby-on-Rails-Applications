@@ -4,6 +4,7 @@ class User < ApplicationRecord
   after_commit :send_welcome_email, on: :create
 
   private
+
   def send_welcome_email
     UserMailer.welcome(self).deliver_later
   end
@@ -21,7 +22,7 @@ class User < ApplicationRecord
   private
 
   def generate_initial_project
-    puts "[INTERNAL] Generate project for #{self.name} (#{self.id})"
+    puts "[INTERNAL] Generate project for #{name} (#{id})"
   end
 
   def send_analytics_event
@@ -40,7 +41,7 @@ class User < ApplicationRecord
   after_create :generate_initial_project, unless: :admin?
   after_commit :send_welcome_email, on: :create
   after_commit :send_analytics_event,
-               on: :create, if: :tracking_consent?
+    on: :create, if: :tracking_consent?
   after_commit :sync_with_crm
 end
 
@@ -55,13 +56,12 @@ class User < ApplicationRecord
   attr_accessor :skip_welcome_email, :skip_crm_sync
   after_create :generate_initial_project, unless: :admin?
   after_commit :send_welcome_email,
-               on: :create, unless: :skip_welcome_email
+    on: :create, unless: :skip_welcome_email
   after_commit :send_analytics_event,
-               on: :create, if: :tracking_consent?
+    on: :create, if: :tracking_consent?
   after_commit :sync_with_crm, unless: :skip_crm_sync
 end
 
 User.create!(name: "Non-admin with consent",
   admin: false, tracking_consent: true,
-  skip_crm_sync: true, skip_welcome_email: true
-)
+  skip_crm_sync: true, skip_welcome_email: true)

@@ -7,7 +7,7 @@ module SoftDeletable
   included do
     self.discard_column = :deleted_at
     belongs_to :deleted_by, class_name: "User",
-                            optional: true
+      optional: true
   end
 
   def discard(by: Current.user)

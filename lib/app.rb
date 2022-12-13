@@ -30,6 +30,6 @@ end
 
 class WelcomeController < ApplicationController
   def index
-    render inline: 'Hi!'
+    head :ok
   end
 end

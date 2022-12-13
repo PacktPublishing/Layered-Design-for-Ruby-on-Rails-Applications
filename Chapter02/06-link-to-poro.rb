@@ -2,7 +2,7 @@ require_relative "./prelude"
 
 # #content_tag stub
 def content_tag(tag, text, attrs = {})
-  "<#{tag} #{attrs.map { |k, v| "#{k}=\"#{v}\""}.join(" ")}>#{text}</#{tag}>"
+  "<#{tag} #{attrs.map { |k, v| "#{k}=\"#{v}\"" }.join(" ")}>#{text}</#{tag}>"
 end
 
 def link_to(name, record)
@@ -22,7 +22,9 @@ class Book
   attr_reader :id
 
   def initialize(id) = @id = id
+
   def persisted? = true
+
   def to_param = id.to_s
 
   def model_name

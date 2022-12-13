@@ -8,15 +8,14 @@ Rails.application.config.bitly_client = Bitly::API::Client.new(
 url = "https://rubyonrails.org"
 
 short_url = Rails.application.config
-                 .bitly_client.shorten(long_url: url).link
-
+  .bitly_client.shorten(long_url: url).link
 
 # Phase 1: Introduce a Shortener domain concept
 # and create a simple wrapper over Bitly API Client
 class Shortener
   class << self
     delegate :shorten, to: :instance
-    def instance() = @instance ||= new
+    def instance = @instance ||= new
   end
 
   def initialize(token: Rails.credentials.bitly_api_token)

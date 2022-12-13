@@ -30,7 +30,7 @@ class Post < ApplicationRecord
   self.discard_column = :deleted_at
 
   belongs_to :deleted_by, class_name: "User",
-                          optional: true
+    optional: true
 
   def destroy
     self.deleted_by = Current.user
@@ -82,7 +82,7 @@ end
 class Post < ApplicationRecord
   belongs_to :user
   belongs_to :deleted_by, class_name: "User",
-                          optional: true
+    optional: true
 
   after_discard :notify_author
 

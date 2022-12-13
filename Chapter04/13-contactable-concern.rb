@@ -7,14 +7,14 @@ module Contactable
 
   included do
     store_accessor :social_accounts, *SOCIAL_ACCOUNTS,
-                   suffix: :social_id
+      suffix: :social_id
 
     validates :phone_number, allow_blank: true,
-                             phone: {types: :mobile}
+      phone: {types: :mobile}
     validates :country_code, inclusion: Country.codes
 
     before_validation :normalize_phone_number,
-                      if: :phone_number_changed?
+      if: :phone_number_changed?
   end
 
   def region = Country[country_code].region
