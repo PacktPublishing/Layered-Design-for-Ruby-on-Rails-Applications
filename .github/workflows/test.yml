@@ -1,0 +1,27 @@
+name: Tests
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      # Some gems (sqlite3 in particular) do not provide
+      # prebuilt binaries for Ruby 3.2 yet
+      BUNDLE_FORCE_RUBY_PLATFORM: "1"
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.2.0-rc1
+    - run: gem install net-protocol
+    - name: Test examples when using pure Ruby
+      run: |
+        bin/test
+    - name: Test examples with using runner
+      run: |
+        bin/test --runner

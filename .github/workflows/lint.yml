@@ -1,0 +1,24 @@
+name: Linters
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+
+jobs:
+  rubocop:
+    runs-on: ubuntu-latest
+    env:
+      # Some gems (sqlite3 in particular) do not provide
+      # prebuilt binaries for Ruby 3.2 yet
+      BUNDLE_FORCE_RUBY_PLATFORM: "1"
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.2.0-rc1
+        bundler-cache: true
+    - name: Lint Ruby code with RuboCop
+      run: |
+        bin/rubocop

@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+require "open3"
+require "optparse"
+
+mode = :ruby
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: bin/test [options] [pattern]"
+
+  opts.on("--runner", "Run examples via custom runner") do |v|
+    mode = :runner
+  end
+end.parse!
+
+Dir.chdir(File.join(__dir__, ".."))
+
+failed = false
+
+pattern = /Chapter\d{2}\/\d{2}-/
+
+target = (ARGV.size > 0) ? ARGV[0] : "**/*.rb"
+
+executor = (mode == :runner) ? "ruby run.rb" : "ruby"
+
+Dir.glob(target) do |file|
+  next unless file.match?(pattern)
+
+  $stdout.print "#{executor} #{file}: "
+
+  out, err, status = Open3.capture3("#{executor} #{file}")
+  next $stdout.puts " ✅ #{err}" if status.success?
+
+  failed = true
+  $stdout.puts " 💥 #{err}"
+  break
+end
+
+exit(1) if failed
