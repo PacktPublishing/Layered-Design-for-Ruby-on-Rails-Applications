@@ -56,8 +56,8 @@ end
 
 # EXAMPLE: 12-active-model-vs-struct-performance.rb
 gems do
-  gem "benchmark-ips", "~> 2.10.0"
-  gem "benchmark-memory", "~> 0.2.0"
+  gem "benchmark-ips", "2.10.0"
+  gem "benchmark-memory", "0.2.0"
 end
 
 require_relative "../lib/boot"

@@ -5,9 +5,9 @@ using ChapterHelpers
 
 gems do
   # For service objects
-  gem "dry-initializer", "~> 3.0"
+  gem "dry-initializer", "3.0.1"
   # For specifications
-  gem "rspec-rails", "~> 4.0.0"
+  gem "rspec-rails", "4.0.0"
 end
 
 schema do

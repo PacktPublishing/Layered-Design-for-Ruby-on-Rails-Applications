@@ -5,12 +5,12 @@ using ChapterHelpers
 
 gems do
   # For SoftDeletable example
-  gem "discard", "~> 1.2.0"
+  gem "discard", "1.2.0"
   # For authentication examples
-  gem "bcrypt", "~> 3.1.18"
+  gem "bcrypt", "3.1.18"
   # For contactable examples
-  gem "countries", "~> 5.2.0"
-  gem "phonelib", "~> 0.7.5"
+  gem "countries", "5.2.0"
+  gem "phonelib", "0.7.5"
 end
 
 schema do

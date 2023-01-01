@@ -6,7 +6,7 @@ using ChapterHelpers
 
 # Add gems
 gems do
-  gem "trace_location", "~> 0.12.0"
+  gem "trace_location", "0.12.0"
 end
 
 require_relative "../lib/boot"

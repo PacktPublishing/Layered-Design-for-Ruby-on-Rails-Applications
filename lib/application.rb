@@ -10,7 +10,6 @@ require_relative "./helpers"
 # config/database.yml
 database = File.expand_path(File.join(__dir__, "..", "rails-book.sqlite3"))
 ENV["DATABASE_URL"] = "sqlite3:#{database}"
-ActiveRecord.legacy_connection_handling = false
 ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: database)
 ActiveRecord::Base.logger = ActiveSupport::Logger.new((ENV["LOG"] == "1") ? $stdout : IO::NULL)
 
@@ -46,7 +45,6 @@ class App < Rails::Application
   config.secret_key_base = "i_am_a_secret"
   config.active_storage.service_configurations = {"local" => {"service" => "Disk", "root" => "./storage"}}
   config.active_storage.service = :local
-  config.active_record.legacy_connection_handling = false
   config.active_job.queue_adapter = :async_inline
 
   config.hosts = []

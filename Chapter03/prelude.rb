@@ -5,13 +5,13 @@ using ChapterHelpers
 
 gems do
   # For Active Job and pure Sidekiq comparison
-  gem "sidekiq", "~> 6.0"
+  gem "sidekiq", "6.0.1"
   # For custom Active Storage analyzer
-  gem "id3tag", "~> 0.14.0"
+  gem "id3tag", "0.14.0"
   # For custom wrapper/adaper example
-  gem "bitly", "~> 3.0.0"
+  gem "bitly", "3.0.0"
   # To stub Bitly HTTP requests
-  gem "webmock", "~> 3.18.0"
+  gem "webmock", "3.18.0"
 end
 
 schema do
