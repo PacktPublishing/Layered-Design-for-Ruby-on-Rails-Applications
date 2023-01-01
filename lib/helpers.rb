@@ -11,12 +11,14 @@ require "tempfile"
 require "ripper"
 
 module ChapterHelpers
+  TRUNCATE_WIDTH = 100
+
   using(Module.new do
     refine String do
-      def truncate(len = 50)
-        return self if size <= 30
+      def truncate(len = TRUNCATE_WIDTH)
+        return self if size <= len
 
-        self[0..25] + "..." + self[-1..(size)]
+        self[0..(len - 5)] + "..." + self[-1..(size)]
       end
 
       def red = "\e[31m#{self}\e[0m"
@@ -104,9 +106,15 @@ module ChapterHelpers
         # Syntax is valid, flush buffer
         buffer.clear
 
-        file = Tempfile.new("#{path}_#{i}")
-        $stdout.reopen(file, "w")
-        $stdout.sync = true
+        debugging = paragraph.match(/\bdebugger\b/)
+
+        if debugging
+          $stdout = original_stdout
+        else
+          file = Tempfile.new("#{path}_#{i}")
+          $stdout.reopen(file, "w")
+          $stdout.sync = true
+        end
 
         exception = nil
         result =
