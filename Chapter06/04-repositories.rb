@@ -61,7 +61,7 @@ class ApplicationRepository
 end
 
 # Make sure the constant is fresh
-remove_const(:PostsRepository) # :ignore:all
+Object.send(:remove_const, :PostsRepository) # :ignore:all
 
 class PostsRepository < ApplicationRepository
   def publish(post) = post.update!(draft: false)

@@ -60,7 +60,7 @@ class GithooksController < ApplicationController
     return head :unprocessable_entity if event.nil?
 
     user = User.find_by(gh_id: event.user_id)
-    User::HandleGithubEventService.call(user, event)
+    User::HandleGithubEventService.call(user, event) if user
 
     head :ok
   end

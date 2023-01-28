@@ -5,7 +5,7 @@ using ChapterHelpers
 
 gems do
   # For service objects
-  gem "dry-initializer", "3.0.1"
+  gem "dry-initializer", "3.1.1"
   # For specifications
   gem "rspec-rails", "4.0.0"
 end

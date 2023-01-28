@@ -5,7 +5,7 @@ using ChapterHelpers
 
 gems do
   # For SoftDeletable example
-  gem "discard", "1.2.0"
+  gem "discard", "1.2.1"
   # For authentication examples
   gem "bcrypt", "3.1.18"
   # For contactable examples

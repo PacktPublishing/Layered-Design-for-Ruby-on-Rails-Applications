@@ -46,6 +46,7 @@ class App < Rails::Application
   config.active_storage.service_configurations = {"local" => {"service" => "Disk", "root" => "./storage"}}
   config.active_storage.service = :local
   config.active_job.queue_adapter = :async_inline
+  config.action_mailer.show_previews = false
 
   config.hosts = []
 
