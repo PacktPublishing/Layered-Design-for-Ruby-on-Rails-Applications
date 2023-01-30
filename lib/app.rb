@@ -30,6 +30,6 @@ end
 
 class WelcomeController < ApplicationController
   def index
-    head :ok
+    render inline: "Welcome to the Layering Rails book examples"
   end
 end

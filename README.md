@@ -64,6 +64,17 @@ $ CHAPTER=2 bin/rails routes
     categories#show
 ```
 
+Finally, you can run a Rails 7 for a particular chapter (some chapters contain controllers and views examples):
+
+```sh
+$ CHAPTER=7 bin/rails rails s
+
+[2023-01-30 22:45:37] INFO  WEBrick 1.8.1
+[2023-01-30 22:45:37] INFO  ruby 3.2.0 (2022-12-25) [aarch64-linux]
+[2023-01-30 22:45:37] INFO  WEBrick::HTTPServer#start: pid=1266 port=3000
+...
+```
+
 ### Software and Hardware List
 
 | Chapter | Software required | OS required |

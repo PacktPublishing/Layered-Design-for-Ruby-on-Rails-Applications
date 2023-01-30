@@ -2,11 +2,16 @@
 
 APP_PATH = File.expand_path("../lib/application", __dir__)
 
-if ENV["CHAPTER"]
-  chapter_dir = "Chapter#{ENV["CHAPTER"].rjust(2, "0")}"
-  require_relative File.join(__dir__, "..", chapter_dir, "prelude.rb")
-else
-  require_relative "../lib/boot"
-end
+PROJECT_PATH =
+  if ENV["CHAPTER"]
+    chapter_dir = "Chapter#{ENV["CHAPTER"].rjust(2, "0")}"
+    File.expand_path(File.join(__dir__, "..", chapter_dir, "prelude.rb"))
+  else
+    File.expand_path(File.join(__dir__, "..", "lib/boot"))
+  end
+
+require_relative PROJECT_PATH
+
+Dir.chdir(File.dirname(PROJECT_PATH))
 
 require "rails/commands"
