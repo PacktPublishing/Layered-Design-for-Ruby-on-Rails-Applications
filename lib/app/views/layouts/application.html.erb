@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Layering Rails Examples</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body>
+    <main class="container min-h-screen mx-auto pt-28 pb-28 px-5 flex h-screen">
+      <%= yield %>
+    </main>
+  </body>
+</html>
