@@ -18,3 +18,6 @@ Lint/DuplicateMethods:
 # Useless assignments become useful in examples
 Lint/UselessAssignment:
   Enabled: false
+# I like alias
+Style/Alias:
+  Enabled: false

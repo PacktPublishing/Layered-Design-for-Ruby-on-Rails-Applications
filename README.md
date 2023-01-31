@@ -64,7 +64,7 @@ $ CHAPTER=2 bin/rails routes
     categories#show
 ```
 
-Finally, you can run a Rails 7 for a particular chapter (some chapters contain controllers and views examples):
+Finally, you can run a Rails server for a particular chapter (some chapters contain controllers and views examples). For example, for Chapter 7:
 
 ```sh
 $ CHAPTER=7 bin/rails rails s
@@ -74,6 +74,8 @@ $ CHAPTER=7 bin/rails rails s
 [2023-01-30 22:45:37] INFO  WEBrick::HTTPServer#start: pid=1266 port=3000
 ...
 ```
+
+Now you can open a web server at [localhost:3000/users](http://localhost:3000/users) and play with the auto-generated Rails CRUD interface for users.
 
 ### Software and Hardware List
 
