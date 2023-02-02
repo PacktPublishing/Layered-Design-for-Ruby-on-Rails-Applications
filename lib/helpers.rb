@@ -31,6 +31,10 @@ module ChapterHelpers
     def extend!(type, obj) = extensions[type].each { obj.instance_eval(&_1) }
   end
 
+  class RackResponseDecorator < SimpleDelegator
+    def inspect = __getobj__.status.inspect
+  end
+
   refine Kernel do
     def gems(&block)
       ChapterHelpers.extensions[:gemfile] << block
@@ -52,10 +56,11 @@ module ChapterHelpers
       )
 
       env["HTTP_COOKIE"] = cookies.map { |k, v| "#{k}=#{v}" }.join(";") unless cookies.empty?
+      env["HTTP_X_WITHIN_EXAMPLE"] = "true"
 
       request_env.merge!(env) unless env.empty?
 
-      ActionDispatch::Response.new(*Rails.application.call(request_env))
+      RackResponseDecorator.new(ActionDispatch::Response.new(*Rails.application.call(request_env)))
     end
 
     def get(path, **options)

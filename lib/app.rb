@@ -9,6 +9,14 @@ class ApplicationRecord < ActiveRecord::Base
 end
 
 class ApplicationController < ActionController::Base
+  helper_method :current_user
+  layout -> { (request.headers["X-WITHIN-EXAMPLE"] == "true") ? false : "application" }
+
+  def current_user
+    return @current_user if instance_variable_defined?(:@current_user)
+
+    @current_user = User.find_by(id: cookies[:user_id])
+  end
 end
 
 class ApplicationJob < ActiveJob::Base
@@ -24,7 +32,8 @@ class ApplicationMailer < ActionMailer::Base
   # Do not attempt deliveries, just print a message
   def prevent_delivery
     message.perform_deliveries = false
-    puts "[EMAIL SENT] to=#{message.to&.join(",")} subject=#{message.subject} body=#{message.body}"
+    reply_to = message.reply_to ? "reply_to=#{message.reply_to.join(",")} " : ""
+    puts "[EMAIL SENT] to=#{message.to&.join(",")} #{reply_to}subject=#{message.subject} body=#{message.body}"
   end
 end
 
