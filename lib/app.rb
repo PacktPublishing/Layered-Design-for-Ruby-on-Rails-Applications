@@ -37,7 +37,118 @@ class ApplicationMailer < ActionMailer::Base
   end
 end
 
+class Chapter
+  class Example
+    attr_reader :path, :name, :id
+
+    def initialize(path)
+      @path = path
+
+      filename = File.basename(path)
+
+      filename.match(/^(?<id>\d+)-(?<name>.+)\.rb$/) => {id:, name:}
+
+      @id = id
+      @name = name.tr("-", "_").titleize
+    end
+
+    def loaded? = @active ||= $LOADED_FEATURES.include?(path)
+
+    def to_s = name
+
+    def to_param = id
+
+    def load
+      Kernel.require(path)
+    end
+  end
+
+  class Router
+    attr_reader :routes
+
+    def initialize(routes = Rails.application.routes)
+      @routes = routes
+    end
+
+    def paths
+      @paths ||= routes.set.routes.filter_map do
+        path = _1.path.spec.to_s
+        next if path.starts_with?("/rails")
+        next if path.starts_with?("/_/")
+        next if path == "/"
+        path.sub(%r{\(.:format\)}, "")
+      end.uniq!.sort!
+    end
+
+    def recognizable_paths
+      paths.select do
+        routes.recognize_path(_1)
+    rescue
+      false
+      end
+    end
+  end
+
+  attr_reader :root, :id
+
+  def initialize(num)
+    @id = num.to_i
+    @root = File.expand_path(File.join(__dir__, "../Chapter#{num}"))
+  end
+
+  def router = Router.new
+
+  def examples
+    @examples ||= Dir.glob(File.join(root, "*.rb")).filter_map do |path|
+      next unless path.match?(/\/\d{2}-/)
+
+      Example.new(path)
+    end
+  end
+
+  def find_example(id)
+    examples.find { _1.id == id }
+  end
+
+  def active_example
+    return @active_example if instance_variable_defined?(:@active_example)
+
+    @active_example = examples.find(&:loaded?)
+  end
+end
+
 class WelcomeController < ApplicationController
+  helper_method :current_chapter
+
   def index
+  end
+
+  def load_example
+    example = current_chapter&.find_example(params[:id])
+
+    example&.load
+
+    redirect_to root_path
+  end
+
+  def reset_examples
+    server = Puma::Server.current
+    Thread.new {
+      sleep 1
+      server.begin_restart
+    }
+
+    redirect_to root_path
+  end
+
+  private
+
+  def current_chapter
+    return @current_chapter if @current_chapter
+
+    @current_chapter =
+      if ENV["CHAPTER"]
+        Chapter.new(ENV["CHAPTER"].rjust(2, "0"))
+      end
   end
 end

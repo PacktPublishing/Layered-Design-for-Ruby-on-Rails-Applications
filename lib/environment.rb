@@ -16,6 +16,8 @@ begin
     # - https://github.com/rails/rails/pull/46843
     # - https://github.com/rails/rails/pull/46864
     gem "rails", "~> 7.0", github: "palkan/rails", branch: "palkan-dev"
+    # Use Puma as a web server (so we can reload the app without reloading the server)
+    gem "puma", "~> 6.0.1"
     # Rails is not fully compatible with Rack 3 yet
     gem "rack", "< 3"
     # We use in-memory sqlite as our database

@@ -32,6 +32,10 @@ class UserInvitationForm
 end
 
 class InvitationsController < ApplicationController # :ignore:
+  def new
+    @user = User.new
+  end
+
   def create
     form = UserInvitationForm.new(
       params.require(:user).permit(:email).to_h,

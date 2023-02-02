@@ -59,6 +59,9 @@ class App < Rails::Application
   routes.append do
     root to: "welcome#index"
 
+    post "/_/chapters/:id" => "welcome#load_example", :as => :example
+    delete "/_/chapters" => "welcome#reset_examples", :as => :examples_reset
+
     ChapterHelpers.extend!(:routes, self)
   end
 

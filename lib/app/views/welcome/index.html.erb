@@ -1,0 +1,56 @@
+<div class="min-w-full">
+  <h1 class="font-bold text-4xl mb-5">
+    <% if current_chapter %>
+      Layering Rails: Chapter <%= current_chapter.id %>
+    <% else %>
+      Layering Rails
+    <% end %>
+  </h1>
+
+  <% if current_chapter %>
+    <% unless current_chapter.active_example %>
+      <p class="text-xl grey-text">Code examples you can play around with!</p>
+
+      <hr class="mt-5">
+
+      <ul>
+        <% current_chapter.examples.each do |example| %>
+          <li class="flex flex-row items-baseline">
+            <span><%= example.id %>.</span>
+            <%= button_to example, example_path(example), method: :post, class: "cursor-pointer text-red-500 hover:text-black background-transparent px-1 py-1 outline-none focus:outline-none mr-1 mb-1" %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <div class="flex flex-row items-baseline">
+        <h2 class="font-bold text-xl">
+          Loaded example: <%= current_chapter.active_example.name %>
+        </h2>
+        <%= button_to "Reset", examples_reset_path, method: :delete, class: "cursor-pointer text-red-500 hover:text-black background-transparent px-1 py-1 outline-none focus:outline-none ml-2"%>
+      </div>
+      <h4 class="text-gray">Source: <%= current_chapter.active_example.path %></h4>
+      <hr class="mt-5">
+      <div class="mt-5">
+        <h2 class="font-bold text-xl mb-1">Availalble endpoints:</h2>
+        <% endpoints = current_chapter.router.recognizable_paths %>
+        <% if endpoints.any? %>
+          <ul class="list-disc">
+            <% endpoints.each do |route| %>
+              <li>
+                <% if route.match?(/\/:\w+/) %>
+                  <code><%= route %></code>
+                <% else %>
+                  <%= link_to route, class: "text-red-500 hover:text-black" do %>
+                    <code><%= route %></code>
+                  <% end %>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <span>No enpoints</span>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
