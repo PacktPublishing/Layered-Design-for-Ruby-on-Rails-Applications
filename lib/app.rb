@@ -166,6 +166,8 @@ class WelcomeController < ApplicationController
 
   def reset_examples
     server = Puma::Server.current
+    ActiveRecord::Tasks::DatabaseTasks.truncate_all
+
     Thread.new {
       sleep 1
       server.begin_restart
