@@ -66,8 +66,6 @@ class InvitationForm < ApplicationForm
 end
 
 class InvitationsController < ApplicationController
-  prepend_view_path File.join(__dir__, "views/03")
-
   def new
     @invitation_form = InvitationForm.new
   end

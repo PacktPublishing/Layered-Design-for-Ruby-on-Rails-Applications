@@ -10,12 +10,39 @@ end
 
 class ApplicationController < ActionController::Base
   helper_method :current_user
-  layout -> { (request.headers["X-WITHIN-EXAMPLE"] == "true") ? false : "application" }
+  layout -> { request.headers["X-EXAMPLE"].present? ? false : "application" }
+
+  before_action :configure_example_view_path
 
   def current_user
     return @current_user if instance_variable_defined?(:@current_user)
 
     @current_user = User.find_by(id: cookies[:user_id])
+  end
+
+  private
+
+  def current_chapter
+    return @current_chapter if @current_chapter
+
+    chapter = ENV.fetch("CHAPTER") do
+      request.headers["X-CHAPTER"]
+    end&.rjust(2, "0")
+
+    @current_chapter = chapter ? Chapter.new(chapter) : nil
+
+    return unless @current_chapter
+
+    example = request.headers["X-EXAMPLE"].presence
+    @current_chapter.find_example(example)&.then(&:active!) if example
+
+    @current_chapter
+  end
+
+  def configure_example_view_path
+    return unless current_chapter&.active_example
+
+    prepend_view_path File.join(current_chapter.root, "views", current_chapter.active_example.id)
   end
 end
 
@@ -52,7 +79,13 @@ class Chapter
       @name = name.tr("-", "_").titleize
     end
 
-    def loaded? = @active ||= $LOADED_FEATURES.include?(path)
+    def loaded?
+      return @active if instance_variable_defined?(:@active)
+
+      @active = $LOADED_FEATURES.include?(path)
+    end
+
+    def active! = @active = true
 
     def to_s = name
 
@@ -77,7 +110,7 @@ class Chapter
         next if path.starts_with?("/_/")
         next if path == "/"
         path.sub(%r{\(.:format\)}, "")
-      end.uniq!.sort!
+      end.tap(&:uniq!).tap(&:sort!)
     end
 
     def recognizable_paths
@@ -139,16 +172,5 @@ class WelcomeController < ApplicationController
     }
 
     redirect_to root_path
-  end
-
-  private
-
-  def current_chapter
-    return @current_chapter if @current_chapter
-
-    @current_chapter =
-      if ENV["CHAPTER"]
-        Chapter.new(ENV["CHAPTER"].rjust(2, "0"))
-      end
   end
 end

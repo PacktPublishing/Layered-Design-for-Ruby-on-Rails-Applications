@@ -56,11 +56,14 @@ module ChapterHelpers
       )
 
       env["HTTP_COOKIE"] = cookies.map { |k, v| "#{k}=#{v}" }.join(";") unless cookies.empty?
-      env["HTTP_X_WITHIN_EXAMPLE"] = "true"
+      env["HTTP_X_CHAPTER"], env["HTTP_X_EXAMPLE"] = caller_locations(1, 3).find do |cl|
+        cl.path.match(/\bChapter(\d+)\/(\d+)-/)
+      end.then { Regexp.last_match&.captures }
 
       request_env.merge!(env) unless env.empty?
 
-      RackResponseDecorator.new(ActionDispatch::Response.new(*Rails.application.call(request_env)))
+      response = Rails.application.call(request_env)
+      RackResponseDecorator.new(ActionDispatch::Response.new(*response))
     end
 
     def get(path, **options)
