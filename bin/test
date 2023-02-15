@@ -29,10 +29,14 @@ Dir.glob(target) do |file|
   $stdout.print "#{executor} #{file}: "
 
   out, err, status = Open3.capture3("#{executor} #{file}")
-  next $stdout.puts " ✅ #{err}" if status.success?
+  if status.success?
+    $stdout.puts " ✅"
+    $stdout.puts "Errors:\n#{err.lines.take(5).join("\n")}" unless err.empty?
+    next
+  end
 
   failed = true
-  $stdout.puts " 💥 #{err}"
+  $stdout.puts " 💥 #{err.lines.take(5).join("\n")}"
   break
 end
 
