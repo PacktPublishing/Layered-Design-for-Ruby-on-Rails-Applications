@@ -8,6 +8,9 @@ class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 end
 
+module ApplicationHelper
+end
+
 class ApplicationController < ActionController::Base
   helper_method :current_user
   layout -> { request.headers["X-EXAMPLE"].present? ? false : "application" }
