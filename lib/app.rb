@@ -11,6 +11,10 @@ end
 module ApplicationHelper
 end
 
+class Current < ActiveSupport::CurrentAttributes
+  attribute :user
+end
+
 class ApplicationController < ActionController::Base
   helper_method :current_user
   layout -> { request.headers["X-EXAMPLE"].present? ? false : "application" }
@@ -20,7 +24,7 @@ class ApplicationController < ActionController::Base
   def current_user
     return @current_user if instance_variable_defined?(:@current_user)
 
-    @current_user = User.find_by(id: cookies[:user_id])
+    @current_user = Current.user || User.find_by(id: cookies[:user_id])
   end
 
   private
