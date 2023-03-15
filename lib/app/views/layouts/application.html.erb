@@ -12,6 +12,20 @@
 
   <body>
     <main class="container min-h-screen mx-auto pt-28 pb-28 px-5 flex h-screen">
+      <div class="absolute mt-1 w-full top-2 left-0">
+        <div class="flex justify-center">
+          <%- if flash[:alert] -%>
+            <div class="max-w-sm bg-white border-t-4 border-red-500 rounded-b text-red-900 px-4 py-3 shadow-md">
+              <p class="text-sm"><%= flash[:alert] %></p>
+            </div>
+          <%- end -%>
+          <%- if flash[:notice] -%>
+            <div class="max-w-sm bg-white border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md">
+              <p class="text-sm"><%= flash[:alert] %></p>
+            </div>
+          <%- end -%>
+        </div>
+      </div>
       <%= yield %>
     </main>
   </body>

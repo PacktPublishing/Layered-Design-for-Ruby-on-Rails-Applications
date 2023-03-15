@@ -33,6 +33,11 @@ module ChapterHelpers
 
   class RackResponseDecorator < SimpleDelegator
     def inspect = __getobj__.status.inspect
+
+    # Make it posssible to access flash from response
+    def flash
+      headers["rails.flash"]
+    end
   end
 
   refine Kernel do
@@ -63,6 +68,8 @@ module ChapterHelpers
       request_env.merge!(env) unless env.empty?
 
       response = Rails.application.call(request_env)
+      # Make flash accesible on the response object
+      response[1]["rails.flash"] = ActionDispatch::Request.new(request_env.merge({"HTTP_COOKIE" => response[1]["Set-Cookie"]})).flash.to_h
       RackResponseDecorator.new(ActionDispatch::Response.new(*response))
     end
 
