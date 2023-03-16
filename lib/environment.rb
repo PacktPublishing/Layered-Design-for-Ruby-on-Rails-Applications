@@ -28,7 +28,8 @@ begin
     gem "rouge", "4.0.1"
 
     # Freeze default gem versions to avoid Bundler conflicts
-    gem "timeout", "0.3.1"
+    require "timeout"
+    gem "timeout", Timeout::VERSION
 
     ChapterHelpers.extend!(:gemfile, self)
   end
