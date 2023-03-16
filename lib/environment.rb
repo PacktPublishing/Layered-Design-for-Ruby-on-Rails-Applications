@@ -27,6 +27,9 @@ begin
     # Highlight code in the terminal
     gem "rouge", "4.0.1"
 
+    # Freeze default gem versions to avoid Bundler conflicts
+    gem "timeout", "0.3.1"
+
     ChapterHelpers.extend!(:gemfile, self)
   end
 rescue Gem::MissingSpecError
