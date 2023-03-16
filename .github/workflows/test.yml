@@ -18,7 +18,6 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: 3.2
-    - run: gem install net-protocol
     - name: Test examples when using pure Ruby
       run: |
         bin/test
