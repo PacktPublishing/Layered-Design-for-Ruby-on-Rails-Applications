@@ -183,3 +183,17 @@ class WelcomeController < ApplicationController
     redirect_to root_path
   end
 end
+
+module ApplicationCable
+  class Connection < ActionCable::Connection::Base
+    identified_by :user
+
+    def connect
+      self.user = User.find_by(id: request.params[:user_id])
+      reject_unauthorized_connection unless user
+    end
+  end
+
+  class Channel < ActionCable::Channel::Base
+  end
+end

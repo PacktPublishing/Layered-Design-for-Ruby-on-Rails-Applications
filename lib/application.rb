@@ -36,6 +36,21 @@ module ActiveJob
   end
 end
 
+# Custom Action Cable adapter which prints broadcast to standard output
+module ActionCable
+  module SubscriptionAdapter
+    class TestPrint < Test
+      def broadcast(channel, payload)
+        puts "[CABLE BROADCAST] channel=#{channel} data=#{payload.inspect}"
+        super
+      end
+    end
+  end
+end
+
+# Prevent Rails from trying to require the subscription adapter file
+$LOADED_FEATURES << "action_cable/subscription_adapter/test_print"
+
 # config/application.rb
 class App < Rails::Application
   config.root = __dir__
@@ -69,6 +84,11 @@ class App < Rails::Application
     require_relative "./app"
   end
 end
+
+# Configure Action Cable
+ActionCable.server.config.cable = {
+  "adapter" => "test_print"
+}
 
 # Create Active Storage tables (unless already exists)
 begin
