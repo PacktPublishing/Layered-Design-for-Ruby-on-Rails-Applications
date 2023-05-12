@@ -1,0 +1,8 @@
+<div class="w-full p-4">
+  <%= render SearchBox::Component.new(action: search_results_path, placeholder: "Search results by quiz title or student name") %>
+  <%= @results.find_each do |result| %>
+    <%- @course = result.quiz.course -%>
+    <%- prev_result = result.quiz.results.where(user: result.user, attempt: ...result.attempt).order(attempt: :desc).first -%>
+    <%= render partial: "quizzes/student_result", locals: {result:, quiz: result.quiz, prev_result:} %>
+  <% end %>
+</div>

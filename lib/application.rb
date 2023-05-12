@@ -68,8 +68,23 @@ class App < Rails::Application
   config.logger = ActiveSupport::Logger.new((ENV["LOG"] == "1") ? $stdout : IO::NULL)
 
   # Add current chapter views
-  prelude_path = caller_locations(1, 10).find { _1.path.include?("prelude.rb") }&.path
-  config.paths["app/views"] << File.join(File.dirname(prelude_path), "views") if prelude_path
+  call_locs = caller_locations(1, 10)
+  prelude_path = call_locs.find { _1.path.include?("prelude.rb") }&.path
+  if prelude_path
+    config.paths["app/views"] << File.join(File.dirname(prelude_path), "views")
+
+    example_path = call_locs.find { _1.path.match(/Chapter\d+\/(\d{2})-.+\.rb/) }&.path
+    if example_path
+      config.paths["app/views"].unshift File.join(File.dirname(prelude_path), "views", Regexp.last_match[1])
+    end
+
+    # For view components
+    config.autoload_paths << File.join(File.dirname(prelude_path), "views", "components")
+
+    if example_path
+      config.autoload_paths << File.join(File.dirname(prelude_path), "views", Regexp.last_match[1], "components")
+    end
+  end
 
   routes.append do
     root to: "welcome#index"

@@ -1,0 +1,14 @@
+<div class="w-full p-4">
+  <%= form_with(url: search_results_path, class: "relative mb-4 flex w-full shadow-sm flex-wrap items-stretch") do |f| %>
+    <div class="absolute z-[2] inset-y-4 left-0 flex items-center pl-3 pointer-events-none w-5 h-5">
+      <i class="fa fa-search text-gray-400"></i>
+    </div>
+    <%= f.text_field :q, placeholder: "Search results by quiz title or student name", class: "min-w-0 flex-auto relative block rounded border border-gray-200 outline-none px-3 py-3 focus:border-blue-300 placeholder-gray-400 pl-10" %>
+    <%= f.submit "Search", class: "absolute right-2.5 bottom-2.5 rounded p-1.5 px-2 text-sm bg-blue-600 text-white inline-block font-medium cursor-pointer hover:bg-blue-500 active:bg-blue-700" %>
+  <% end %>
+  <%= @results.find_each do |result| %>
+    <%- @course = result.quiz.course -%>
+    <%- prev_result = result.quiz.results.where(user: result.user, attempt: ...result.attempt).order(attempt: :desc).first -%>
+    <%= render partial: "quizzes/student_result", locals: {result:, quiz: result.quiz, prev_result:} %>
+  <% end %>
+</div>

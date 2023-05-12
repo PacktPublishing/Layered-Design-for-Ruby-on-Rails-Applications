@@ -1,0 +1,12 @@
+<div class="flex justify-center">
+  <%- if alert -%>
+    <div class="max-w-sm bg-white border-t-4 border-red-500 rounded-b text-red-900 px-4 py-3 shadow-md">
+      <p class="text-sm"><%= alert %></p>
+    </div>
+  <%- end -%>
+  <%- if notice -%>
+    <div class="max-w-sm bg-white border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md">
+      <p class="text-sm"><%= notice %></p>
+    </div>
+  <%- end -%>
+</div>

@@ -1,0 +1,26 @@
+<div class="block rounded-lg bg-white p-6 shadow w-[400px] mb-2">
+  <header class="flex flex-row justify-between">
+    <h3
+      class="mb-2 text-xl font-medium leading-tight text-neutral-800">
+      <%= quiz.title %>
+    </h3>
+    <span class="<%= result.passed? ? "text-green-500" : "text-red-500"%>">
+      <%= result.passed? ? "passed" : "failed" %>
+    </span>
+  </header>
+  <p>
+    <i class="fa fa-user"></i>
+    <%= link_to result.user.name, result.user, class: "text-blue-600 cursor-pointer hover:underline" %>
+  </p>
+  <div class="flex flex-row items-baseline mr-2">
+    <label class="text-sm text-gray-500 mr-1">Score</label>
+    <span><%= result.score %> / <%= quiz.score %> (<%= l(result.created_at, format: :short) %>)</span>
+  </div>
+  <%- if result.attempt > 1 -%>
+    <div class="flex flex-row items-baseline mr-2">
+      <label class="text-sm text-gray-500 mr-1">Previous Attempt</label>
+      <span><%= prev_result.score %> / <%= quiz.score %>
+      (<%= l(prev_result.created_at, format: :short) %>)</span>
+    </div>
+  <%- end -%>
+</div>
