@@ -21,3 +21,7 @@ Lint/UselessAssignment:
 # I like alias
 Style/Alias:
   Enabled: false
+
+# We need $edge_rails
+Style/GlobalVars:
+  Enabled: false

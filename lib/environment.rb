@@ -12,7 +12,12 @@ begin
   gemfile(retried, quiet: true) do
     source "https://rubygems.org"
 
-    gem "rails", "~> 7.0", github: "rails/rails", ref: "d954155dd8ccb183fc666d944740f552629be68d"
+    if $edge_rails
+      gem "rails", "~> 7.0", github: "rails/rails", ref: "d954155dd8ccb183fc666d944740f552629be68d"
+    else
+      gem "rails", "~> 7.0"
+    end
+
     # Use Puma as a web server (so we can reload the app without reloading the server)
     gem "puma", "~> 6.0.1"
     # Rails is not fully compatible with Rack 3 yet

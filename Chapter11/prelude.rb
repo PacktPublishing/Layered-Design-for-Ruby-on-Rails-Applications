@@ -1,6 +1,8 @@
 require_relative "../lib/helpers"
 using ChapterHelpers
 
+$edge_rails = true
+
 gems do
   gem "view_component", "~> 3.0"
   gem "view_component-contrib", "~> 0.1.4"
