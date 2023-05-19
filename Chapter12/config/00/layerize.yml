@@ -1,0 +1,16 @@
+default: &default
+   model: "CakeGPT-1.0"
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+  api_key: secret_cake
+  callback_url: "http://localhost:3000/callbacks/test"
+
+production:
+  <<: *default
+  # we use a newer, more expensive, and slower model in production
+  model: "CakeGPT-2.0"
+  callback_url: "https://callbacks.myapp.io/cakes"

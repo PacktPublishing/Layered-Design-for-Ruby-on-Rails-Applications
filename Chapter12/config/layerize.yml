@@ -1,0 +1,18 @@
+default: &default
+   model: "CakeGPT-1.0"
+   api_key: <%= Rails.application.credentials.layerize&.api_key %>
+
+development:
+  <<: *default
+  callback_url: <%= ENV.fetch("LAYERIZE_CALLBACK_URL") { Rails.application.credentials.layerize&.callback_url } %>
+
+test:
+  <<: *default
+  api_key: secret_cake
+  callback_url: "http://localhost:3000/callbacks/test"
+
+production:
+  <<: *default
+  # we use a newer, more expensive, and slower model in production
+  model: "CakeGPT-2.0"
+  callback_url: "https://callbacks.myapp.io/cakes"

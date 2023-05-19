@@ -53,6 +53,10 @@ module ChapterHelpers
       ChapterHelpers.extensions[:routes] << block
     end
 
+    def configure(&block)
+      ChapterHelpers.extensions[:config] << block
+    end
+
     def request(path, params: {}, method: :get, cookies: {}, env: {})
       request_env = Rack::MockRequest.env_for(
         "http://localhost:3000#{path}",

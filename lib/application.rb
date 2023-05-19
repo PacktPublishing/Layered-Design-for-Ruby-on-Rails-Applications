@@ -64,6 +64,11 @@ class App < Rails::Application
   config.action_mailer.show_previews = false
   config.active_record.legacy_connection_handling = false unless $edge_rails
 
+  # Keep all credentials in a single file, since editing per-chapter credentials
+  # doesn't work for a yet-unknown reason
+  config.credentials.content_path = Pathname.new(File.join(__dir__, "config", "credentials.yml.enc"))
+  config.credentials.key_path = Pathname.new(File.join(__dir__, "config", "master.key"))
+
   config.hosts = []
 
   config.logger = ActiveSupport::Logger.new((ENV["LOG"] == "1") ? $stdout : IO::NULL)
@@ -73,10 +78,13 @@ class App < Rails::Application
   prelude_path = call_locs.find { _1.path.include?("prelude.rb") }&.path
   if prelude_path
     config.paths["app/views"] << File.join(File.dirname(prelude_path), "views")
+    config.paths["config"].unshift File.join(File.dirname(prelude_path), "config")
 
     example_path = call_locs.find { _1.path.match(/Chapter\d+\/(\d{2})-.+\.rb/) }&.path
     if example_path
       config.paths["app/views"].unshift File.join(File.dirname(prelude_path), "views", Regexp.last_match[1])
+      example_config_path = File.join(File.dirname(prelude_path), "config", Regexp.last_match[1])
+      config.paths["config"].unshift example_config_path if File.directory?(example_config_path)
     end
 
     # For view components
@@ -95,6 +103,8 @@ class App < Rails::Application
 
     ChapterHelpers.extend!(:routes, self)
   end
+
+  ChapterHelpers.extend!(:config, self)
 
   config.after_initialize do
     require_relative "./app"

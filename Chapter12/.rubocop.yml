@@ -1,0 +1,9 @@
+inherit_from: "../.rubocop.yml"
+
+require:
+  - ./lib/rubocop/lint_rails_env
+
+Lint/RailsEnv:
+  Enabled: true
+  Exclude:
+    - 'config/**/*.rb'
