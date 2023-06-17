@@ -57,7 +57,7 @@ module ChapterHelpers
       ChapterHelpers.extensions[:config] << block
     end
 
-    def request(path, params: {}, method: :get, cookies: {}, env: {})
+    def request(path, params: {}, method: :get, cookies: {}, env: {}, headers: {})
       request_env = Rack::MockRequest.env_for(
         "http://localhost:3000#{path}",
         params:,
@@ -68,6 +68,8 @@ module ChapterHelpers
       env["HTTP_X_CHAPTER"], env["HTTP_X_EXAMPLE"] = caller_locations(1, 3).find do |cl|
         cl.path.match(/\bChapter(\d+)\/(\d+)-/)
       end.then { Regexp.last_match&.captures }
+
+      headers&.each { request_env["HTTP_#{_1.upcase.tr("-", "_")}"] = _2 }
 
       request_env.merge!(env) unless env.empty?
 
@@ -92,6 +94,8 @@ module ChapterHelpers
     def delete(path, **options)
       request(path, method: :delete, **options)
     end
+
+    def url_for(...) = Rails.application.routes.url_helpers.url_for(...)
 
     # Prints the code and executes it,
     # paragraph by paragraph

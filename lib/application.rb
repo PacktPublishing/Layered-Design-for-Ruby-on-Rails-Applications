@@ -95,6 +95,8 @@ class App < Rails::Application
     end
   end
 
+  routes.default_url_options = {host: "localhost:3000"}
+
   routes.append do
     root to: "welcome#index"
 
