@@ -25,3 +25,14 @@ end
 post = Post.create!(title: "Layering Rails", content: "A book of callbacks")
 
 puts post.attributes
+
+# Rails 7.1 normalization API example
+class NormalizedPost < ApplicationRecord
+  self.table_name = "posts"
+
+  normalizes :content, with: -> { _1.squish }
+end
+
+post = NormalizedPost.create!(title: "Layering Rails 7.1", content: " A book of\n normalizations  ")
+
+puts post.content

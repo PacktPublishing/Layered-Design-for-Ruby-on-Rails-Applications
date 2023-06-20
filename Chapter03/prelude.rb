@@ -43,6 +43,15 @@ end
 User.create!(name: "Vova")
 
 module Analytics
+  class Error < StandardError
+  end
+
+  class APIError < Error
+  end
+
+  class UserNotFound < Error
+  end
+
   class Tracker
     def self.push_event(payload)
       event = payload.fetch(:event)

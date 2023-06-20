@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+$edge_rails = true
+
 require_relative "../lib/helpers"
 using ChapterHelpers
 

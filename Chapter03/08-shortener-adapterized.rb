@@ -22,7 +22,7 @@ class Shortener
     end
   end
 
-  class NoopBackend
+  class NoOpBackend
     def shorten(url) = url
   end
 end
@@ -30,6 +30,6 @@ end
 Shortener.shorten("https://rubyonrails.org")
 
 # Switch adapter to no-op (returning the long url)
-Shortener.backend = Shortener::NoopBackend.new
+Shortener.backend = Shortener::NoOpBackend.new
 
 Shortener.shorten("https://rubyonrails.org")
