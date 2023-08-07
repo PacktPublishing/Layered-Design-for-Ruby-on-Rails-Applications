@@ -1,12 +1,31 @@
-# Layering Rails
+# Layered Design for Ruby on Rails Applications	
+Layered Design for Ruby on Rails Applications, published by Packt
 
-This is code repository for Layering Rails, published by Packt.
+<a href="https://www.packtpub.com/product/layered-design-for-ruby-on-rails-applications/9781801813785"><img src="https://static.packt-cdn.com/products/9781801813785/cover/smaller" alt="Layered Design for Ruby on Rails Applications" height="256px" align="right"></a>
 
-**Practical design patterns for maintainable Ruby on Rails web applications.**
+This is the code repository for [Layered Design for Ruby on Rails Applications](https://www.packtpub.com/product/layered-design-for-ruby-on-rails-applications/9781801813785), published by Packt.
+
+**Discover practical design patterns for maintainable web applications.**
 
 ## What is this book about?
+Ruby on Rails is an open-source framework for building web applications from scratch and develop a full-featured product. This book helps you keep the code maintainable while working on a Rails application by demonstrating the useful design patterns and exploring the common code abstractions.
 
-TBD
+This book covers the following exciting features:
+
+* Discover Rails' core components and its request/response cycle
+* Understand Rails' convention-over-configuration principle and its impact on development
+* Explore patterns for flexibility, extensibility, and testability in Rails
+* Identify and address Rails’ anti-patterns for cleaner code
+* Implement design patterns for handling bloated models and messy views
+* Expand from mailers to multi-channel notification deliveries
+* Explore different authorization models and layers
+* Use a class-based approach to configuration in Rails
+
+If you feel this book is for you, get your [copy](https://www.amazon.com/Layered-Design-Ruby-Rails-Applications/dp/1801813787) today!
+
+<a href="https://www.packtpub.com/?utm_source=github&utm_medium=banner&utm_campaign=GitHubBanner"><img src="https://raw.githubusercontent.com/PacktPublishing/GitHub/master/GitHub.png" 
+alt="https://www.packtpub.com/" border="5" /></a>
+
 
 ## Instructions and navigations
 
@@ -79,6 +98,14 @@ Now you can open a web server at [localhost:3000/users](http://localhost:3000/us
 
 ### Software and Hardware List
 
-| Chapter | Software required | OS required |
+| Chapter  |        Software required             |           OS required               |
 | -------- | ------------------------------------ | ----------------------------------- |
-| 1-15 | Ruby 3.2 | Any OS that runs Ruby |
+| 1-15     | Ruby 3.2                             |     Any OS that runs Ruby           |
+
+### Related products <Other books you may enjoy>
+* Web Development with Julia and Genie  [[Packt]](https://www.packtpub.com/product/web-development-with-julia-and-genie/9781801811132) [[Amazon]](https://www.amazon.in/Development-Julia-Genie-hands-high-performance/dp/180181113X)
+
+* Practical Module development for Prestashop 8  [[Packt]](https://www.packtpub.com/product/practical-module-development-for-prestashop-8/9781837635962) [[Amazon]](https://www.amazon.in/Practical-Module-Development-Prestashop-customizable/dp/183763596X/ref=tmm_pap_swatch_0?_encoding=UTF8&qid=&sr=)
+
+## Get to Know the Author
+**Vladimir Dementyev** is a principal backend engineer at Evil Martians, a product development consultancy from Earth, focusing on building maintainable web applications and developers’ productivity. He is the creator of popular open source tools, such as AnyCable and TestProf, and a contributor to many other open source projects, including Ruby on Rails and Ruby itself. Vladimir plays an active role in the Ruby community through his code contributions and by speaking at conferences and sharing his passion for coding via articles and blog posts. For his contributions to the Ruby ecosystem, Vladimir was awarded the Fukuoka Ruby Award in 2021 and the Ruby Hero Russia Award in 2017.
