@@ -4,9 +4,9 @@ using ChapterHelpers
 gems do
   # For service objects
   gem "dry-initializer", "3.1.1"
-  # Do not require right away to acticate the mailer line,
+  # Do not require right away to activate the mailer line,
   # which requires loading ActiveDelivery after Action Mailer
-  gem "active_delivery", "1.0.0.rc2", require: false
+  gem "active_delivery", "~> 1.0.0", require: false
   gem "noticed", "1.6.0"
 
   gem "store_model", "1.6.2"

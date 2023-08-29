@@ -104,7 +104,7 @@ RSpec.describe Post::Publish do
 
   subject { described_class.call(post) }
 
-  it "triggers delivery to subscribers," do
+  it "triggers delivery to subscribers" do
     expect { subject }.to have_delivered_to(
       PostDelivery, :published, post
     ).with(

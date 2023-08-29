@@ -62,7 +62,6 @@ class App < Rails::Application
   config.active_storage.service = :local
   config.active_job.queue_adapter = :async_inline
   config.action_mailer.show_previews = false
-  config.active_record.legacy_connection_handling = false unless $edge_rails
 
   # Keep all credentials in a single file, since editing per-chapter credentials
   # doesn't work for a yet-unknown reason
