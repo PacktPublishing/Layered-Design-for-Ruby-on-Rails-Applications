@@ -33,6 +33,12 @@ begin
     require "timeout"
     gem "timeout", Timeout::VERSION
 
+    require "stringio"
+    gem "stringio", StringIO::VERSION
+
+    require "psych"
+    gem "psych", Psych::VERSION
+
     ChapterHelpers.extend!(:gemfile, self)
   end
 rescue Gem::MissingSpecError
