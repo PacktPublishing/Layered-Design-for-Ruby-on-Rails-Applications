@@ -8,12 +8,13 @@ require_relative "./helpers"
 require "bundler/inline"
 
 retried = false
+freeze_defaults = true
+
 begin
   gemfile(retried, quiet: true) do
     source "https://rubygems.org"
 
     gem "rails", "7.1.1"
-    gem "activerecord", "7.1.1"
 
     # Use Puma as a web server (so we can reload the app without reloading the server)
     gem "puma", "~> 6.0.1"
@@ -26,25 +27,34 @@ begin
     # Highlight code in the terminal
     gem "rouge", "4.2.0"
 
-    # Freeze default gem versions to avoid Bundler conflicts
-    require "timeout"
-    gem "timeout", Timeout::VERSION
+    if freeze_defaults
+      # Freeze default gem versions to avoid Bundler conflicts
+      require "timeout"
+      gem "timeout", Timeout::VERSION
 
-    require "stringio"
-    gem "stringio", StringIO::VERSION
+      require "stringio"
+      gem "stringio", StringIO::VERSION
 
-    require "psych"
-    gem "psych", Psych::VERSION
+      require "psych"
+      gem "psych", Psych::VERSION
 
-    require "net/protocol"
-    gem "net-protocol", Net::Protocol::VERSION
+      require "net/protocol"
+      gem "net-protocol", Net::Protocol::VERSION
+    end
 
     ChapterHelpers.extend!(:gemfile, self)
   end
-rescue Gem::MissingSpecError, Bundler::SolveFailure
+rescue Gem::MissingSpecError
   raise if retried
 
   retried = true
+  retry
+rescue Bundler::SolveFailure
+  # This may happen when defaults gems are outdated, let's try without them
+  raise if !freeze_defaults
+
+  warn "Re-trying installing without defaults gems to update them. The next run will use updated versions."
+  freeze_defaults = false
   retry
 end
 

@@ -19,6 +19,9 @@ jobs:
       with:
         ruby-version: 3.2
     - run: gem update --system
+    - name: Warmup gems
+      run: |
+        ruby Chapter01/00-request-trace-location.rb || true
     - name: Test examples when using pure Ruby
       run: |
         bin/test
