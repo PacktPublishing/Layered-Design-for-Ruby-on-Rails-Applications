@@ -13,9 +13,9 @@ begin
     source "https://rubygems.org"
 
     if $edge_rails
-      gem "rails", "~> 7.0", github: "rails/rails", ref: "d954155dd8ccb183fc666d944740f552629be68d"
+      gem "rails", "~> 7.1.0"
     else
-      gem "rails", "~> 7.0"
+      gem "rails", "~> 7.0.0"
     end
 
     # Use Puma as a web server (so we can reload the app without reloading the server)
@@ -27,7 +27,7 @@ begin
     # Debugger could be used to dig deeper into some code examples
     gem "debug", "1.7.0"
     # Highlight code in the terminal
-    gem "rouge", "4.0.1"
+    gem "rouge", "~> 4.0"
 
     # Freeze default gem versions to avoid Bundler conflicts
     require "timeout"
