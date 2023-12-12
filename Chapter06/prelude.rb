@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-$edge_rails = true
-
 require_relative "../lib/helpers"
 using ChapterHelpers
 
@@ -47,7 +45,7 @@ class User < ApplicationRecord
 end
 
 class Post < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, optional: true
 
   has_many :bookmarks, dependent: :destroy
 end

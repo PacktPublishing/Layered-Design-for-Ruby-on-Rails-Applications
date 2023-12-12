@@ -12,11 +12,8 @@ begin
   gemfile(retried, quiet: true) do
     source "https://rubygems.org"
 
-    if $edge_rails
-      gem "rails", "~> 7.1.0"
-    else
-      gem "rails", "~> 7.0.0"
-    end
+    gem "rails", "7.1.1"
+    gem "activerecord", "7.1.1"
 
     # Use Puma as a web server (so we can reload the app without reloading the server)
     gem "puma", "~> 6.0.1"
@@ -27,7 +24,7 @@ begin
     # Debugger could be used to dig deeper into some code examples
     gem "debug", "1.7.0"
     # Highlight code in the terminal
-    gem "rouge", "~> 4.0"
+    gem "rouge", "4.2.0"
 
     # Freeze default gem versions to avoid Bundler conflicts
     require "timeout"
@@ -44,7 +41,7 @@ begin
 
     ChapterHelpers.extend!(:gemfile, self)
   end
-rescue Gem::MissingSpecError
+rescue Gem::MissingSpecError, Bundler::SolveFailure
   raise if retried
 
   retried = true

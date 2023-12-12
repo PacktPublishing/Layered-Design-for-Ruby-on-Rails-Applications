@@ -29,6 +29,23 @@ module ChapterHelpers
     def extensions = @extensions ||= Hash.new { |h, k| h[k] = [] }
 
     def extend!(type, obj) = extensions[type].each { obj.instance_eval(&_1) }
+
+    def const_watchers = @const_watchers ||= Hash.new { |h, k| h[k] = [] }
+
+    def setup_const_watcher
+      name_method = Module.instance_method(:name)
+
+      TracePoint.trace(:end) do |event|
+        # Ignore singletons
+        next if event.self.singleton_class?
+
+        mod_name = name_method.bind_call(event.self)
+
+        const_watchers[mod_name].each do |block|
+          block.call(event.self)
+        end
+      end.enable
+    end
   end
 
   class RackResponseDecorator < SimpleDelegator
@@ -43,6 +60,11 @@ module ChapterHelpers
   refine Kernel do
     def gems(&block)
       ChapterHelpers.extensions[:gemfile] << block
+    end
+
+    def on_const_load(const_name, &block)
+      ChapterHelpers.setup_const_watcher if ChapterHelpers.const_watchers.empty?
+      ChapterHelpers.const_watchers[const_name] << block
     end
 
     def schema(&block)

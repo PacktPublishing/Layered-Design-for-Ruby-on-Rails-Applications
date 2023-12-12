@@ -1,11 +1,9 @@
 require_relative "../lib/helpers"
 using ChapterHelpers
 
-$edge_rails = true
-
 gems do
   gem "view_component", "~> 3.0"
-  gem "view_component-contrib", "~> 0.1.4"
+  gem "view_component-contrib", "~> 0.2.2"
   gem "dry-initializer", "3.1.1"
   gem "capybara", "~> 3.39"
 

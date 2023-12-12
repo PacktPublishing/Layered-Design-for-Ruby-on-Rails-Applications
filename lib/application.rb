@@ -55,14 +55,17 @@ $LOADED_FEATURES << "action_cable/subscription_adapter/test_print"
 class App < Rails::Application
   config.root = __dir__
   config.eager_load = false
+
+  config.load_defaults 7.1
+
+  config.action_controller.allow_forgery_protection = false
   config.consider_all_requests_local = true
-  config.action_dispatch.show_exceptions = false
+  config.action_dispatch.show_exceptions = :none
   config.secret_key_base = "i_am_a_secret"
   config.active_storage.service_configurations = {"local" => {"service" => "Disk", "root" => "./storage"}}
   config.active_storage.service = :local
   config.active_job.queue_adapter = :async_inline
   config.action_mailer.show_previews = false
-  config.active_record.legacy_connection_handling = false unless $edge_rails
 
   # Keep all credentials in a single file, since editing per-chapter credentials
   # doesn't work for a yet-unknown reason

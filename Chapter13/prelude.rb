@@ -1,8 +1,6 @@
 require_relative "../lib/helpers"
 using ChapterHelpers
 
-$edge_rails = false
-
 gems do
   gem "imgproxy", "2.1.0"
   gem "yabeda", "0.11.0"

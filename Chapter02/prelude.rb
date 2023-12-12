@@ -44,8 +44,8 @@ end
 
 # Add Rom-rb
 gems do
-  gem "rom", "~> 5.2.0"
-  gem "rom-sql", "~> 3.6.1"
+  gem "rom", "~> 5.3.0", require: false
+  gem "rom-sql", "~> 3.6.1", require: false
 end
 
 # EXAMPLE: 08-books-controller.rb
@@ -63,6 +63,11 @@ end
 require_relative "../lib/boot"
 # Enable logging to see queries
 ActiveRecord::Base.logger = ActiveSupport::Logger.new($stdout)
+
+# Fix ROM vs Rails 7.1 incompatibility: https://github.com/rom-rb/rom/issues/684
+on_const_load("ROM::SQL::Schema::Inferrer") do |mod|
+  mod.__define_with__
+end
 
 require "rom"
 require "rom-sql"

@@ -11,7 +11,7 @@ gems do
 
   gem "store_model", "1.6.2"
   # For specs
-  gem "rspec-rails", "6.0.0"
+  gem "rspec-rails", "6.1.0"
 end
 
 schema do

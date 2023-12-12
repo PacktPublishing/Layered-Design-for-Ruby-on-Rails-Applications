@@ -1,10 +1,8 @@
 require_relative "../lib/helpers"
 using ChapterHelpers
 
-$edge_rails = false
-
 gems do
-  gem "anyway_config", "~> 2.4.0"
+  gem "anyway_config", "~> 2.5.4"
 end
 
 schema do

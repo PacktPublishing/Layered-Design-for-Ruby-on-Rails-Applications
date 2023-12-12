@@ -22,6 +22,6 @@ Lint/UselessAssignment:
 Style/Alias:
   Enabled: false
 
-# We need $edge_rails
+# We might need $edge_rails
 Style/GlobalVars:
   Enabled: false

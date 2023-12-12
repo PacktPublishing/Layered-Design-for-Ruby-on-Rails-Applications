@@ -7,7 +7,7 @@ gems do
   # For service objects
   gem "dry-initializer", "3.1.1"
   # For specifications
-  gem "rspec-rails", "4.0.0"
+  gem "rspec-rails", "6.1.0"
 end
 
 schema do

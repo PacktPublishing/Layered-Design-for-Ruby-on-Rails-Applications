@@ -11,7 +11,7 @@ gems do
   # For filter objects
   gem "rubanok", "~> 0.4.0"
   # For filtering specs
-  gem "rspec-rails", "4.0.0"
+  gem "rspec-rails", "6.1.0"
 end
 
 schema do
