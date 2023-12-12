@@ -39,6 +39,9 @@ begin
     require "psych"
     gem "psych", Psych::VERSION
 
+    require "net/protocol"
+    gem "net-protocol", Net::Protocol::VERSION
+
     ChapterHelpers.extend!(:gemfile, self)
   end
 rescue Gem::MissingSpecError
